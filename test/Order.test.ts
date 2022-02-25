@@ -14,7 +14,6 @@ test("Deve tentar criar um pedido vazio com cpf invalido", function () {
     expect(() => new Order(cpf)).toThrow(new Error("Invalid cpf"));
 });
 
-
 test("Deve criar um pedido com 3 itens", function () {
     const cpf = "573.381.980-47";
     const order = new Order(cpf);
@@ -34,4 +33,15 @@ test("Deve criar um pedido com 3 itens com um cupom de desconto", function () {
     order.addCoupon(new Coupon("VALE20", 20));
     const total = order.getTotal();
     expect(total).toBe(128);
+});
+
+test("Deve criar um pedido com 3 itens com um cupom de desconto expirado", function () {
+    const cpf = "573.381.980-47";
+    const order = new Order(cpf, new Date("2022-02-28"));
+    order.addItem(new Item(1, "Musica", "CD", 30), 3);
+    order.addItem(new Item(2, "Video", "DVD", 50), 1);
+    order.addItem(new Item(3, "Video", "VHS", 10), 2);
+    order.addCoupon(new Coupon("VALE20", 20, new Date("2022-01-10")));
+    const total = order.getTotal();
+    expect(total).toBe(160);
 });
