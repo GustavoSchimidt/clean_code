@@ -10,8 +10,4 @@ export default class Item {
     getDensity () {
         return this.weight/this.getVolume();
     }
-
-    calculateFreight () {
-        return (1000 * this.getVolume() * (this.getDensity()/100));
-    }
 }
